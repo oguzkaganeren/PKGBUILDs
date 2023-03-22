@@ -1,0 +1,21 @@
+name: CheckVersion
+on:
+  workflow_dispatch:
+    branches:
+      - 'master'
+
+jobs:
+  build:
+    name: Check speedtest-rs version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest Github release
+        uses: rez0n/actions-github-release@main
+        id: speedtest_release
+        env:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: "nelsonjchen/speedtest-rs"
+          type: "stable"
+      - name: Show version
+        run: |
+          echo "${{ steps.speedtest_release.outputs.release }}"
