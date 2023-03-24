@@ -17,5 +17,6 @@ jobs:
       - name: Run bumper
         run: |
           bumper
+          git status
 
 
