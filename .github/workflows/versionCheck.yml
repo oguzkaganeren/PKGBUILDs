@@ -1,4 +1,7 @@
 name: CheckVersion
+permissions:
+  contents: read
+  issues: write 
 on:
   workflow_dispatch:
     branches:
@@ -24,12 +27,12 @@ jobs:
           echo "PkgVer=v$(cat ./speedtest-rs/PKGBUILD | grep pkgver= | cut -d "=" -f2)" >> $GITHUB_ENV
 
       - name: Create an issue
-        uses: dacbd/create-issue-action@main
+        uses: actions-ecosystem/action-create-issue@v1
         if: ${{ env.PkgVer != steps.speedtest_release.outputs.release }}
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           title: Bump version nelsonjchen/speedtest-rs to ${{ steps.speedtest_release.outputs.release }}
-          body: Please update nelsonjchen/speedtest-rs to ${{ steps.speedtest_release.outputs.release }}
-            
+          body: |
+            Please update nelsonjchen/speedtest-rs to ${{ steps.speedtest_release.outputs.release }}
 
             
