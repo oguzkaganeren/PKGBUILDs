@@ -1,7 +1,7 @@
 # Maintainer: Daniel M. Capella <polyzen@archlinux.org>
 # Contributor: asukaminato <asukaminato at nyan dot eu dot org>
 pkgname=speedtest-rs
-pkgver=0.1.4
+pkgver=0.1.3
 pkgrel=1
 pkgdesc='Speedtest.net testing utility and crate'
 arch=('x86_64')
