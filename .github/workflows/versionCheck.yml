@@ -9,14 +9,27 @@ jobs:
     name: Check speedtest-rs version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: '^1.20.2' # The Go version to download (if necessary) and use.
-      - run: go install github.com/bcyran/bumper@latest
-      - name: Run bumper
+      - name: Get latest Github release
+        uses: rez0n/actions-github-release@main
+        id: speedtest_release
+        env:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: "nelsonjchen/speedtest-rs"
+          type: "stable"
+      - name: Show version
         run: |
-          bumper
-          git status
+          echo "${{ steps.speedtest_release.outputs.release }}"
+      - name: Get PKG version
+        run: |
+          echo "PkgVer=v$(cat ./speedtest-rs/PKGBUILD | grep pkgver= | cut -d "=" -f2)" >> $GITHUB_ENV
 
+      - name: Create an issue
+        uses: actions-ecosystem/action-create-issue@v1
+        if: ${{ $PkgVer != steps.speedtest_release.outputs.release }}
+        with:
+          github_token: ${{ secrets.github_token }}
+          title: ${{ steps.date.outputs.today }}
+          body: |
+            Please update nelsonjchen/speedtest-rs to steps.speedtest_release.outputs.release
 
+            
