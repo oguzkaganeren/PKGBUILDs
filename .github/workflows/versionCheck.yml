@@ -25,6 +25,7 @@ jobs:
       - name: Get PKG version
         run: |
           echo "PkgVer=v$(cat ./speedtest-rs/PKGBUILD | grep pkgver= | cut -d "=" -f2)" >> $GITHUB_ENV
+          echo ${{ env.PkgVer }}
 
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@v1
